@@ -40,6 +40,10 @@
 
 ## JSON
 
+-JSON to javascript object =JSON.parse()
+
+- javascript object to JSON =JSON.stringify()
+
 - JSON stands for JavaScript Object Notation.
 - It is a lightweight data interchange format that is easy for humans to read and write, and
   easy for machines to parse and generate.
