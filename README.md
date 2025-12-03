@@ -40,7 +40,7 @@
 
 ## JSON
 
--JSON to javascript object =JSON.parse()
+- JSON to javascript object =JSON.parse()
 
 - javascript object to JSON =JSON.stringify()
 
