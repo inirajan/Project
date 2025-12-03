@@ -1,9 +1,13 @@
 import express from "express";
+import bodyParser from "body-parser";
+
 import config from "./config/index.js";
 import productRoute from "./routes/product.route.js";
 
 const app = express();
 
+app.use(bodyParser.json());
+/*
 app.get("/", (req, res) => {
   res.json({
     name: config.name,
@@ -11,6 +15,8 @@ app.get("/", (req, res) => {
     version: config.version,
   });
 });
+
+*/
 
 //root
 app.use("/", productRoute);

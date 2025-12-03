@@ -1,21 +1,20 @@
 import express from "express";
+import productController from "../controllers/product.controller.js";
 
 const router = express.Router();
 
-router.get("/api/products", (req, res) => {
-  res.send(["Iphone", "Samsung"]);
-});
+router.get("/api/products", productController.getProducts);
 
-router.get("/api/one", (req, res) => {
-  res.send({
-    name: "Samsung",
-  });
-});
+/*
+GET /api/products/:id
 
-router.get("/api/two", (req, res) => {
-  res.send({
-    name: "OnePlus",
-    models: "A1",
-  });
-});
+*/
+router.get("/:id", productController.getOneProductbyId);
+
+/*
+POST /api/products/
+
+*/
+router.post("/api/prodcts", productController.createProduct);
+
 export default router;
