@@ -158,7 +158,7 @@ console.log(`Server running on port: ${port}`);
 
 ```
 
-1. api layer
+1. API layer
    a.routes
    -handle the routes and endpoints
    b.controllers
@@ -169,8 +169,12 @@ console.log(`Server running on port: ${port}`);
 2. Business layer
    a.services
    -handle the business logic and rules
-
-3.
+3. Data logic layer
+   a.models
+   -define the data structures and schemas
+4. Database layer
+   a.database
+   -handle the database connection and operations
 
 ## req.params
 

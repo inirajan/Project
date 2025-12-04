@@ -10,7 +10,8 @@ GET /api/products
 router.get("/api/products", productController.getProducts);
 
 /*
-GET /api/products/:id Eg. http://localhost:5000/api/products/2
+GET /api/products/:id Eg. GET http://localhost:5000/api/products/2
+here :(colon) means dynamic route
 
 */
 router.get("/api/products/:id", productController.getOneProductbyId);
