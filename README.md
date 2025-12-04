@@ -119,9 +119,12 @@ npm install dotenv
 
 ```javascript
 // Load environment variables from .env file
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 const port = process.env.PORT || 8000;
+const dbHost = process.env.DB_HOST || "defaultHost";
 console.log(`Server running on port: ${port}`);
+console.log(`Database host: ${dbHost}`);
 ```
 
 - Using environment variables helps keep sensitive information secure and allows for easy configuration changes without modifying the application code directly.
@@ -246,7 +249,7 @@ app.get("/products", (req, res) => {
 - Example of using `req.body` with JSON data:
 
 ```javascript
-const express = require("express");
+import express from "express";
 const app = express();
 app.use(express.json()); // Middleware to parse JSON body
 app.post("/users", (req, res) => {
@@ -259,7 +262,7 @@ app.post("/users", (req, res) => {
 - Example of using `req.body` with URL-encoded data:
 
 ```javascript
-const express = require("express");
+import express from "express";
 const app = express();
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded body
 app.post("/login", (req, res) => {
@@ -274,7 +277,7 @@ app.post("/login", (req, res) => {
 - Example of a complete Express.js application using `req.params`, `req.query`, and `req.body`:
 
 ```javascript
-const express = require("express");
+import express from "express";
 const app = express();
 app.use(express.json()); // Middleware to parse JSON body
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded body
@@ -288,18 +291,13 @@ app.get("/search", (req, res) => {
   const searchTerm = req.query.q;
   res.send(`Search Term: ${searchTerm}`);
 });
+```
+
 // Route with req.body
 app.post("/users", (req, res) => {
-  const userData = req.body;
-  res.send(`User Data: ${JSON.stringify(userData)}`);
+const userData = req.body;
+res.send(`User Data: ${JSON.stringify(userData)}`);
 });
-// Start the server
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-```
 
 ## body-parser
 
@@ -318,20 +316,359 @@ npm install body-parser
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+
 // Middleware to parse JSON body
 app.use(bodyParser.json());
+
 // Middleware to parse URL-encoded body
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Route to handle POST request
 
 app.post("/users", (req, res) => {
   const userData = req.body;
   res.send(`User Data: ${JSON.stringify(userData)}`);
 });
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 ```
+
+## MongoDB
+
+- Non-relational database, document-oriented database, stores data in JSON-like format called BSON (Binary JSON)
+- Flexible schema, scalability, high performance, rich query language
+  -Data are stored in collections (equivalent to tables in relational databases)
+
+## Basic concepts(terminology):
+
+- Database: A main container, where all collections are stored.
+- Collection: A group of MongoDB documents, similar to a table in relational databases.
+- Document: A single record in a collection, similar to a row in relational databases. It is represented in BSON format.
+- Field: A key-value pair in a document, similar to a column in relational databases.
+-
+- CRUD operations:
+- Create, Read, Update, Delete
+- MongoDB provides a rich set of methods to perform
+
+## common operations:
+
+- Create: insertOne(), insertMany()
+- Read: find(), findOne()
+- Update: updateOne(), updateMany(), findOneAndUpdate()
+- Delete: deleteOne(), deleteMany(), findOneAndDelete()
+
+## More advanced operations:
+
+- Aggregation: aggregate()
+- Indexing: createIndex(), dropIndex()
+- Data modeling: schema design, relationships between documents
+-
+
+## Schema design:
+
+- Collections and documents
+- Embedding vs. referencing
+- Indexing for performance optimization
+- Data validation and constraints
+
+## moongoose
+
+- ODM (Object Data Modeling) library for MongoDB and Node.js
+- Provides a higher-level abstraction for interacting with MongoDB
+- Create Schema and validation
+- Model creation and querying
+- Middleware support
+- Built-in data type casting and validation
+- Relationship management between documents
+- Example of defining a schema and creating a model using Mongoose:
+- install mongoose:
+  npm install mongoose
+
+## Tool used in MongoDB:
+
+Locally: MongoDB Compass (shell included)
+
+Cloud: MongoDB Atlas
+
+Example using Mongoose (ODM for MongoDB and Node.js):
+
+```javascript(module)
+
+import mongoose from "mongoose";
+
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/mydatabase", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Define a schema
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  age: Number,
+});
+
+// Create a model
+const User = mongoose.model("User", userSchema);
+
+// Create a new user
+
+const newUser = new User({
+  name: "John Doe",
+  email: ""
+  age: 30,
+});
+
+newUser.save().then(() => console.log("User saved"));
+
+// Find users
+User.find().then((users) => console.log("Users:", users));
+
+// Update a user
+User.findByIdAndUpdate(
+  "userId",
+  { age: 31 },
+  { new: true }
+).then((updatedUser) => console.log("Updated User:", updatedUser));
+
+// Delete a user
+
+User.findByIdAndDelete("userId").then(() =>
+  console.log("User deleted")
+);
+
+```
+
+Schema defines the structure of the documents in a collection, and the model provides an interface for interacting with the database.
+
+Example of performing CRUD operations using Mongoose:
+
+```javascript(module)
+import mongoose from "mongoose";
+
+ const ProductSchema = new mongoose.Schema({
+   name: String,
+   price: Number,
+   description: String,
+   inStock: Boolean,
+
+ });
+
+  const Product = mongoose.model("Product", ProductSchema);
+
+// Create a new product
+  const newProduct = new Product({
+    name: "Sample Product",
+    price: 19.99,
+    description: "This is a sample product.",
+    inStock: true,
+  });
+  newProduct.save().then(() => console.log("Product created"));
+
+// Read products
+  Product.find().then((products) => console.log("Products:", products));
+
+// Update a product
+  Product.findByIdAndUpdate(
+    "productId",
+    { price: 24.99 },
+    { new: true }
+  ).then((updatedProduct) => console.log("Updated Product:", updatedProduct));
+
+// Delete a product
+  Product.findByIdAndDelete("productId").then(() =>
+    console.log("Product deleted")
+  );
+
+
+```
+
+## MongoDB Query
+
+- Basic queries:
+
+  - show dabtases: show dbs
+  - Use database: use databasename (to create new database, just use it)
+  - Show collections: show collections
+
+## Create/ ADD :
+
+1.  insertOne()
+
+- db.collectionName.insertOne({ field1: value1, field2: value2 })
+- eg. db.users.insertOne({name:"John", age:30})
+
+2. insertMany()
+
+- db.collectionName.insertMany([{ field1: value1 }, { field2: value2 }])
+- eg. db.users.insertMany([{name:"Alice", age:25}, {name:"Bob", age:28}])
+
+## Read/ GET :
+
+1. find()
+
+- db.collectionName.find()
+- eg. db.users.find()
+- eg. db.users.find({age:30}) //filtering
+
+2. findOne()
+
+- db.collectionName.findOne({ field: value })
+- eg. db.users.findOne({name:"John"})
+
+  3.countDocuments(): to count number of documents in a collection
+
+- db.collectionName.countDocuments()
+- eg. db.users.countDocuments()
+
+## Update:
+
+1. updateOne()
+
+- db.collectionName.updateOne({ filter }, { $set: { field: newValue } })
+- eg. db.users.updateOne({name:"John"}, {$set:{age:31}})
+
+2. updateMany()
+
+- db.collectionName.updateMany({ filter }, { $set: { field: newValue } })
+- eg. db.users.updateMany({age:25}, {$set:{inStock:true}})
+
+3. findOneAndUpdate()
+
+- db.collectionName.findOneAndUpdate({ filter }, { $set: { field: newValue } }, { returnNewDocument: true })
+- eg. db.users.findOneAndUpdate({name:"Alice"}, {$set:{age:26}}, {returnNewDocument:true})
+
+## Delete:
+
+1. deleteOne()
+
+- db.collectionName.deleteOne({ filter })
+- eg. db.users.deleteOne({name:"Bob"})
+
+2. deleteMany()
+
+- db.collectionName.deleteMany({ filter })
+- eg. db.users.deleteMany({age:30})
+- eg. db.users.deleteMany({inStock:false})
+
+3. findOneAndDelete()
+
+- db.collectionName.findOneAndDelete
+- db.collectionName.findOneAndDelete
+  ({ filter })
+- eg. db.users.findOneAndDelete({name:"Alice"})
+
+## Aggregation:
+
+- db.collectionName.aggregate([ { $stage1: { ... } }, { $stage2: { ... } } ])
+- eg. db.orders.aggregate([ { $match: { status: "completed" } }, { $group: { _id: "$customerId", totalAmount: { $sum: "$amount" } } } ])
+
+- Aggregation is a powerful way to perform data analysis and transformation in MongoDB.
+- It allows you to process data records and return computed results.
+- Common aggregation stages include:
+  - $match: Filters documents based on specified criteria.
+  - $group: Groups documents by a specified field and performs aggregate calculations.
+  - $sort: Sorts documents based on specified fields.
+  - $project: Reshapes documents by including, excluding, or adding new fields.
+- Example of using aggregation to calculate total sales per product:
+
+```javascript
+db.sales.aggregate([
+  { $group: { _id: "$productId", totalSales: { $sum: "$amount" } } },
+  { $sort: { totalSales: -1 } },
+]);
+```
+
+- In this example, we group sales records by `productId`, calculate the total sales amount for each product, and sort the results in descending order of total sales.
+
+## comparison operators:
+
+1. $eq:
+
+- Equal to
+  -db.collectionName.find({ field: { $eq: value } })
+
+2. $ne:
+
+- Not equal to
+  -db.collectionName.find({ field: { $ne: value } })
+
+3. $gt/$gte:
+
+- Greater than/Greater than or equal to
+  -db.collectionName.find({ field: { $gt: value } })
+  -db.collectionName.find({ field: { $gte: value } })
+
+4. $lt/$lte:
+
+- Less than/Less than or equal to
+  -db.collectionName.find({ field: { $lt: value } })
+  -db.collectionName.find({ field: { $lte: value } })
+
+## logical operators:
+
+5. $and:
+
+- Logical AND
+  -db.collectionName.find({ $and: [ { field1: condition1 }, { field2: condition2 } ] })
+
+6. $or:
+
+- logical OR
+  -db.collectionName.find({ $or: [ { field1: condition1 }, { field2: condition2 } ] })
+
+7. $not:
+
+- Logical NOT
+  -db.collectionName.find({ field: { $not: { condition } } })
+
+## element operators:
+
+8. $in:
+
+- In array
+  -db.collectionName.find({ field: { $in: [value1, value2, ...] } })
+
+9. $nin:
+
+- Not in array
+  -db.collectionName.find({ field: { $nin: [value1, value2, ...] } })
+
+## Pagination and Sorting:
+
+- pagination means dividing content into discrete pages, making it easier to navigate large datasets.
+- It improves user experience by reducing load times and enhancing readability.
+
+10. sorting:
+
+- db.collectionName.find().sort({ field: 1 }) // Ascending
+- db.collectionName.find().sort({ field: -1 }) // Descending
+
+  11.limiting results:
+
+- db.collectionName.find().limit(number)
+
+12. skipping results:
+
+- db.collectionName.find().skip(number)
+
+13. combining filtering, sorting, limiting, and skipping:
+
+- db.collectionName.find({ filter }).sort({ field: 1 }).limit(number).skip(number)
+- Example:
+
+```javascript
+db.users
+  .find({ age: { $gte: 18 } })
+  .sort({ name: 1 })
+  .limit(10)
+  .skip(5);
+```
+
+- In this example, we retrieve users who are 18 years or older, sort them by name in ascending order, limit the results to 10 users, and skip the first 5 users.
