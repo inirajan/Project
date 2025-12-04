@@ -2,9 +2,10 @@ import productService from "../services/product.service.js";
 
 const getProducts = (req, res) => {
   const query = req.query;
+
   console.log(query);
 
-  const data = productService.getProductsFromDB;
+  const data = productService.getProductsFromDB(query);
 
   res.json(data);
 };
@@ -26,7 +27,7 @@ const createProduct = (req, res) => {
 
   productService.createProduct(req.body);
 
-  res.status(201).send("product created");
+  res.status(201).send("Product Created");
 };
 
 export default {

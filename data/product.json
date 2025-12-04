@@ -48,6 +48,7 @@
         "stock": 50
     },
     {
+        "id":7,
         "name": "Samsung M14 6GB/256GB Black ",
         "brand": "Samsung",
         "category": "Smartphones",
@@ -55,6 +56,7 @@
         "stock": 19
     },
     {
+        "id":8,
         "name": "Samsung A18 4GB/128GB Sky Blue Triple camera",
         "brand": "Samsung",
         "category": "Smartphones",
@@ -62,6 +64,7 @@
         "stock": 30
     },
     {
+        "id":9,
         "name": "Dell XPS 13 Plus 9320 Touch Screen",
         "brand": "Dell",
         "category": "Laptops",
@@ -69,6 +72,7 @@
         "stock": 8
     },
     {
+        "id":10,
         "name": "Samsung Galaxy Book",
         "brand": "Samsung",
         "category": "Laptops",
@@ -76,6 +80,7 @@
         "stock": 63
     },
     {
+        "id":11,
         "name": "MacBook Air M4 16GB 256GB",
         "brand": "Apple",
         "category": "Laptops",
@@ -83,6 +88,7 @@
         "stock": 23
     },
     {
+        "id":12,
         "name": "Macbook Pro M4",
         "brand": "Apple",
         "category": "Laptops",
@@ -90,6 +96,7 @@
         "stock": 12
     },
     {
+        "id":13,
         "name": "MacBook Pro M4 Pro 24GB 512 GB 14\"",
         "brand": "Apple",
         "category": "Laptops",
@@ -97,6 +104,7 @@
         "stock": 8
     },
     {
+        "id":14,
         "name": "Premier Steel Pipes",
         "brand": "Premier",
         "category": "Hardwares",

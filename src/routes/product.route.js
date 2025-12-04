@@ -3,18 +3,22 @@ import productController from "../controllers/product.controller.js";
 
 const router = express.Router();
 
+/* 
+GET /api/products
+*/
+
 router.get("/api/products", productController.getProducts);
 
 /*
-GET /api/products/:id
+GET /api/products/:id Eg. http://localhost:5000/api/products/2
 
 */
-router.get("/:id", productController.getOneProductbyId);
+router.get("/api/products/:id", productController.getOneProductbyId);
 
 /*
 POST /api/products/
 
 */
-router.post("/api/prodcts", productController.createProduct);
+router.post("/api/products", productController.createProduct);
 
 export default router;

@@ -203,7 +203,7 @@ app.get('/users/:userId/posts/:postId', (req, res) => {
 - In this example, when a GET request is made to `/users/123/posts/456`, the values `123` and `456` will be captured as the `userId` and `postId` parameters, respectively.
 - `req.params` is commonly used in RESTful APIs to identify specific resources based on their unique identifiers.
 
-### req.query
+## req.query
 
 -this is for filtering, sorting, pagination
 

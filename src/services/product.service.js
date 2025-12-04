@@ -21,7 +21,7 @@ const createProduct = (data) => {
 
   prodctItems.push(data);
 
-  fs.writeFileSync("data/newProcucts.json", JSON.stringify(prodctItems));
+  fs.writeFileSync("data/products.json", JSON.stringify(prodctItems));
 };
 
 export default {
