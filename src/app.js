@@ -1,10 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-import config from "./config/index.js";
+import config from "./config/config.js";
 import productRoute from "./routes/product.route.js";
+import conntectDB from "./config/database.js";
 
 const app = express();
+
+conntectDB();
 
 app.use(bodyParser.json());
 

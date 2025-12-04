@@ -367,16 +367,14 @@ app.listen(PORT, () => {
 - Aggregation: aggregate()
 - Indexing: createIndex(), dropIndex()
 - Data modeling: schema design, relationships between documents
--
 
-## Schema design:
+## Tool used in MongoDB:
 
-- Collections and documents
-- Embedding vs. referencing
-- Indexing for performance optimization
-- Data validation and constraints
+- Locally: MongoDB Compass (shell included)
 
-## moongoose
+- Cloud: MongoDB Atlas
+
+## mongoose
 
 - ODM (Object Data Modeling) library for MongoDB and Node.js
 - Provides a higher-level abstraction for interacting with MongoDB
@@ -389,13 +387,14 @@ app.listen(PORT, () => {
 - install mongoose:
   npm install mongoose
 
-## Tool used in MongoDB:
+## Schema design:
 
-Locally: MongoDB Compass (shell included)
+- Collections and documents
+- Embedding vs. referencing
+- Indexing for performance optimization
+- Data validation and constraints
 
-Cloud: MongoDB Atlas
-
-Example using Mongoose (ODM for MongoDB and Node.js):
+## Example using Mongoose (ODM for MongoDB and Node.js):
 
 ```javascript(module)
 

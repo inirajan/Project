@@ -13,6 +13,7 @@ const config = {
       enabled: parseInt(process.env.FEATURE_ADMIN_PANNELD) || false,
     },
   },
+  mongoDBUrl: process.env.MONGODB_URL || "",
 };
 
 export default config;
