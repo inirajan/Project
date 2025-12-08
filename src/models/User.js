@@ -61,6 +61,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+
+  status: {
+    typer: [String],
+    default: ["Pending"],
+    emum: ["Pending ", ""],
+  },
 });
 
 const model = mongoose.model("User", userSchema);

@@ -702,3 +702,134 @@ description:String
 });
 const Product=mongoose.model("Product",productSchema,"myProductsCollection"); //custom collection name
 export default Product;
+
+## Encryption:
+
+- converting readable data to cipher text(unreadable format) to protect sensitive information.
+- for example: mypassword123 => 234abc
+
+- Decryption: converting cipher text back to readable format.
+
+### Types of encryption:
+
+1. Symmetric encryption:
+
+- same key is used for encryption and decryption.
+
+2. Asymmetric encryption:
+
+- different keys are used for encryption and decryption (public and private keys).
+
+- Common encryption algorithms:
+  -AES (Advanced Encryption Standard)
+  -RSA (Rivest-Shamir-Adleman)
+  -SHA (Secure Hash Algorithm)
+  -bcrypt
+
+## Hashing:
+
+- one-way encryption, data cannot be decrypted back to original format.
+- converts readable text to cipher but not vice-versa.
+- commonly used for storing passwords securely.
+- ensures data integrity by generating unique hash values for data.
+- Hashing of a text aways produces the same hash value for the same input.
+
+## Salting:
+
+- adding random data (salt) to hash value to make it more secure.
+- prevents attacks like rainbow table attacks.
+
+### Common hashing techniques:
+
+- Hashing algorithms:
+  -MD5 (Message-Digest Algorithm 5)
+  -SHA-1 (Secure Hash Algorithm 1)
+  -SHA-256 (Secure Hash Algorithm 256)
+  -bcrypt
+  -scrypt
+- PBKDF2 (Password-Based Key Derivation Function 2)
+
+- Example of using bcrypt for hashing passwords in Node.js:
+
+```javascript
+import bcrypt from "bcrypt";
+const saltRounds = 10;
+const plainPassword = "mypassword123";
+// Hashing the password
+bcrypt.hash(plainPassword, saltRounds, (err, hash) => {
+  if (err) throw err;
+  console.log("Hashed Password:", hash);
+  // Verifying the password
+  bcrypt.compare(plainPassword, hash, (err, result) => {
+    if (err) throw err;
+    console.log("Password Match:", result); // true
+  });
+});
+```
+
+## bcryptjs
+
+- bcryptjs is a JavaScript implementation of the bcrypt hashing algorithm.
+- It is used for securely hashing passwords and verifying them.
+- bcryptjs is a pure JavaScript library, making it compatible with both Node.js and browser
+  environments.
+- To use bcryptjs, you need to install it via npm:
+
+```bash
+npm install bcryptjs
+```
+
+- Example of using bcryptjs for hashing passwords in Node.js:
+
+```javascript
+import bcrypt from "bcryptjs";
+const saltRounds = 10;
+const plainPassword = "mypassword123";
+// Hashing the password
+bcrypt.genSalt(saltRounds, (err, salt) => {
+  if (err) throw err;
+  bcrypt.hash(plainPassword, salt, (err, hash) => {
+    if (err) throw err;
+    console.log("Hashed Password:", hash);
+    // Verifying the password
+    bcrypt.compare(plainPassword, hash, (err, result) => {
+      if (err) throw err;
+      console.log("Password Match:", result); // true
+    });
+  });
+});
+```
+
+- bcryptjs provides similar functionality to the original bcrypt library, including:
+  - Hashing passwords with a specified number of salt rounds.
+  - Verifying passwords against hashed values.
+- It is widely used in web applications for secure password storage and authentication.
+
+example of using bcryptjs with async/await syntax:
+
+```javascript
+import bcrypt from "bcryptjs";
+const saltRounds = 10;
+const plainPassword = "mypassword123";
+
+async function hashAndVerifyPassword() {
+  try {
+    // Hashing the password
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hash = await bcrypt.hash(plainPassword, salt);
+    console.log("Hashed Password:", hash);
+    // Verifying the password
+    const result = await bcrypt.compare(plainPassword, hash);
+    console.log("Password Match:", result); // true
+  } catch (err) {
+    console.error(err);
+  }
+}
+hashAndVerifyPassword();
+```
+
+- In this example, we use async/await syntax to hash and verify the password using bcryptjs.
+- bcryptjs provides similar functionality to the original bcrypt library, including:
+  - Hashing passwords with a specified number of salt rounds.
+  - Verifying passwords against hashed values.
+- It is widely used in web applications for secure password storage and authentication.

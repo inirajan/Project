@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import config from "./config/config.js";
 import productRoute from "./routes/product.route.js";
 import userRoute from "./routes/user.route.js";
+import authRoute from "./routes/user.route.js";
+
 import conntectDB from "./config/database.js";
 
 const app = express();
@@ -24,6 +26,7 @@ app.get("/", (req, res) => {
 //root
 app.use("/", productRoute);
 app.use("/", userRoute);
+app.use("/", authRoute);
 
 //creating servers
 app.listen(config.port, () => {
