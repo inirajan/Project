@@ -671,3 +671,34 @@ db.users
 ```
 
 - In this example, we retrieve users who are 18 years or older, sort them by name in ascending order, limit the results to 10 users, and skip the first 5 users.
+
+## Note:
+
+-Model name should be singular and first letter capitalized
+-Collection name should be plural and all letters in lowercase
+-Mongoose will automatically create collection with plural name of model
+-eg. model: User => collection: users
+-eg. model: Product => collection: products
+-eg. model: Category => collection: categories
+-If you want to specify custom collection name, you can pass it as third argument in mongoose.model() method
+-eg. const User = mongoose.model("User", userSchema, "myUsersCollection")
+Eg:
+
+import mongoose,{Schema,model} from "mongoose";
+const userSchema=new Schema({
+name:String,
+email:String,
+age:Number
+});
+const User=model("User",userSchema); //collection name will be 'users'
+export default User;
+
+another eg:
+import mongoose from "mongoose";
+const productSchema=new mongoose.Schema({
+name:String,
+price:Number,
+description:String
+});
+const Product=mongoose.model("Product",productSchema,"myProductsCollection"); //custom collection name
+export default Product;

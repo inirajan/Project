@@ -22,4 +22,8 @@ POST /api/products/
 */
 router.post("/api/products", productController.createProduct);
 
+router.delete("/api/products/:id", productController.deleteProduct);
+
+router.put("/api/products/:id", productController.updateProduct);
+
 export default router;
