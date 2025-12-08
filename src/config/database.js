@@ -5,7 +5,7 @@ const conntectDB = async () => {
   try {
     const status = await mongoose.connect(config.mongoDBUrl);
 
-    console.log(`MonogDB conntected successfully: ${status.connection.host}`);
+    console.log(`MonogDB conntected : ${status.connection.host}`);
   } catch (error) {
     console.log(error);
 

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "User name is required"],
+    required: [true, "User name is required."],
   },
   email: {
     type: String,
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: {
       validator: (value) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
         return emailRegex.test(value);
       },
@@ -25,26 +25,22 @@ const userSchema = new mongoose.Schema({
     required: [true, "Password is required."],
     minLength: [6, "Password length must be greater than 6."],
   },
-  roles: {
-    type: [String],
-    default: ["USER"],
-    enums: ["USER", "MERCHANT", "ADMIN"],
-  },
   phone: {
     type: String,
-    required: [true, "Phone number is required"],
-    minLength: [6, "Invalid phone number"],
-    maxLength: [13, "Invalid phone number"],
+    required: [true, "Phone number is required."],
+    minLength: [6, "Invalid phone number."],
+    maxLength: [13, "Invalid phone number."],
   },
   address: {
     city: {
       type: String,
-      required: [true, "Address city is required"],
+      required: [true, "Address city is required."],
     },
     province: {
       type: String,
-      required: [true, "Address province is required"],
+      required: [true, "Address province is required."],
     },
+    street: String,
     country: {
       type: String,
       default: "Nepal",
@@ -55,6 +51,11 @@ const userSchema = new mongoose.Schema({
     default: Date.now(),
     immutable: true,
   },
+  roles: {
+    type: [String],
+    default: ["USER"],
+    enum: ["USER", "MERCHANT", "ADMIN"],
+  },
   profileImageUrl: String,
   isActive: {
     type: Boolean,
@@ -62,6 +63,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = new mongoose.model("User", userSchema);
+const model = mongoose.model("User", userSchema);
 
-export default User;
+export default model;
