@@ -1,8 +1,14 @@
 import authService from "../services/auth.service.js";
+import jwt from "../utils/jwt.js";
 
 const login = async (req, res) => {
   try {
     const data = await authService.login(req.body);
+
+    const token = jwt.createJWT(data);
+    console.log(token);
+
+    res.cookie("authToken", token, { maxAge: "1d" });
 
     res.json({ data: data, message: "User logged In." });
   } catch (error) {

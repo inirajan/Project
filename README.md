@@ -181,7 +181,7 @@ console.log(`Database host: ${dbHost}`);
 
 ## req.params
 
--this is for specific resource identification,see a single user by id
+- this is for specific resource identification,see a single user by id
 
 - `req.params` is an object in Express.js that contains route parameters.
 - Route parameters are named URL segments that are used to capture values specified at their position in the
@@ -833,3 +833,165 @@ hashAndVerifyPassword();
   - Hashing passwords with a specified number of salt rounds.
   - Verifying passwords against hashed values.
 - It is widely used in web applications for secure password storage and authentication.
+
+## Authentication and Authorization
+
+- Authentication is the process of verifying the identity of a user or system.
+  -Authentication : who you are? logged in user
+
+- Authorization is the process of granting or denying access to resources based on the authenticated user's permissions.
+- Authorization: what you can access? what logged in user can do? User roles and permissions:
+
+- Common authentication methods:
+  -Username and password
+  -OAuth (Open Authorization)
+  -JWT (JSON Web Tokens)
+  -Multi-factor authentication (MFA)
+
+## JWT (JSON Web Tokens)
+
+-Self verified token
+-Used for auth and authorization
+
+- tempered proof(if data is changed,signature will not match)
+- JWT is a compact, URL-safe means of representing claims to be transferred between two parties.
+- It is commonly used for authentication and authorization in web applications.
+
+## JWT Structure
+
+- Header: contains metadata about the token, such as the signing algorithm used.
+
+- Payload: contains the data being transmitted, such as user information and permissions.
+
+- Signature: used to verify the integrity of the token and ensure it has not been tampered with.
+
+-Install jsonwebtoken library:
+npm install jsonwebtoken
+
+- In this example, we create a JWT with a payload containing the user ID and role, sign it with a secret key, and set an expiration time of 1 hour.
+- We then verify the token using the same secret key and decode the payload if the token is valid.
+
+## How to genreate secret key?
+
+- You can generate a secret key using various methods, such as:
+  -Using online tools like [randomkeygen.com](https://randomkeygen.com/)
+  -Using command line tools like OpenSSL:
+  -openssl rand -base64 32
+  -Using Node.js crypto module:
+  -In terminal, run the following command to generate a random secret ke
+
+```javascript
+import crypto from "crypto";
+const secretKey = crypto.randomBytes(32).toString("hex");
+console.log("Generated Secret Key:", secretKey);
+```
+
+- Best practices for managing secret keys:
+
+- It is important to keep the secret key secure and not expose it in your code or version control.
+- The secret key should be long, random, and unique to ensure the security of your JWTs.
+- The secret key is used to sign and verify JWTs, so it should be kept confidential and not shared with unauthorized parties.
+- The secret key should be stored securely, such as in environment variables or a secure vault.
+- Example of storing the secret key in an environment variable:
+
+```bash
+export JWT_SECRET_KEY="your_secret_key"
+```
+
+```javascript
+import jwt from "jsonwebtoken";
+const secretKey = process.env.JWT_SECRET_KEY;
+// Creating and verifying JWTs using the secret key from environment variable
+```
+
+- By following these practices, you can ensure the security and integrity of your JWTs in your web applications.
+
+- jwt.sign(): to create a JWT
+- jwt.verify(): to verify a JWT
+- jwt.decode(): to decode a JWT without verifying its signature
+  -JSON.stringify(): to convert a JavaScript object to a JSON string
+  -JSON.parse(): to convert a JSON string to a JavaScript object s
+- Example:
+
+```javascript
+import jwt from "jsonwebtoken";
+const secretKey = "your secret key";
+
+// Creating a JWT
+const user = { id: 1, role: "admin" };
+
+console.log("Generated Token:", token);
+
+// Verifying a JWT
+jwt.verify(token, secretKey, (err, decoded) => {
+  if (err) {
+    console.error("Invalid token:", err);
+  } else {
+    console.log("Decoded payload:", decoded);
+  }
+});
+```
+
+## Storing JWT securely
+
+- after generating JWT, it is important to store it securely on the client side.
+
+- Store JWTs securely to prevent unauthorized access and ensure the integrity of your authentication system.
+- 3 storage options:
+
+  1. HttpOnly Cookies:
+
+  - Store JWTs in HttpOnly cookies to prevent access from client-side scripts.
+  - Set the HttpOnly flag when creating the cookie to enhance security.
+  - size:4KB
+  - Storage: Server and Browser
+  - Expiry: cookie expiry time can be set
+    example:
+
+  ```javascript
+  res.cookie("token", jwtToken, {
+    httpOnly: true,
+    secure: true, // use true in production with HTTPS
+    maxAge: 3600000, // 1 hour
+  });
+  ```
+
+  2. Local Storage:
+
+  - Store JWTs in local storage for easy access on the client side.
+  - Be cautious of XSS attacks, as local storage is ac cessible via JavaScript.
+  - size:5MB
+  - Storage: Browser only
+  - Expiry: until manually cleared, not automatically expired
+  - example:
+
+  ```javascript
+  localStorage.setItem("token", jwtToken);
+  const token = localStorage.getItem("token");
+  ```
+
+  3. Session Storage:
+
+  - Store JWTs in session storage for temporary storage during a browser session.
+  - Data is cleared when the browser tab is closed, providing some security benefits.
+  - size:5MB
+  - Storage: Browser only
+  - Expiry: until the tab is closed
+    example:
+
+  ```javascript
+  sessionStorage.setItem("token", jwtToken);
+  const token = sessionStorage.getItem("token");
+  ```
+
+## Auth process flow with JWT
+
+1.User Login/Registration: successfully login or registration, server generates a JWT containing user information and permissions.
+
+2. Generate Token: server creates a JWT using a secret key and sends it back to the client.
+
+3. Store Token: client stores the JWT securely (HttpOnly cookies, local storage, or session storage).
+
+4. Include Token in Requests(append or use toke in every request to handle auth): client includes the JWT in the Authorization header of subsequent requests to protected routes.
+
+5. Verify Token and authenticate/authorize user: server verifies the JWT using the secret key to ensure its validity and integrity.

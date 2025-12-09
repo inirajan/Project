@@ -63,7 +63,7 @@ const userSchema = new mongoose.Schema({
   },
 
   status: {
-    typer: [String],
+    type: [String],
     default: ["Pending"],
     emum: ["Pending ", "Active", ""],
   },

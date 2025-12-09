@@ -1,0 +1,23 @@
+import jwt from "jsonwebtoken";
+import config from "../config/config.js";
+
+const createJWT = (data) => {
+  //generating jwt token
+  const token = jwt.sign(data, config.jwt_secret, { expiresIn: "30d" });
+
+  console.log(token);
+
+  return token;
+};
+
+const verifyJWT = async (token) => {
+  return await new Promise((resolve, reject) => {
+    jwt.verify(token, config.jwt_secret, (error, data) => {
+      if (error) return reject(error);
+
+      resolve(data);
+    });
+  });
+};
+
+export default { createJWT, verifyJWT };
