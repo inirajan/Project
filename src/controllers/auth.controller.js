@@ -1,10 +1,10 @@
-import authService from "../services/auth.service";
+import authService from "../services/auth.service.js";
 
 const login = async (req, res) => {
   try {
     const data = await authService.login(req.body);
 
-    res.json(data);
+    res.json({ data: data, message: "User logged In." });
   } catch (error) {
     res.status(error.status || 404).send(error?.message);
   }
