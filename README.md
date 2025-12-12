@@ -1181,5 +1181,22 @@ app.get("/user/profile", roleBasedAuth(USER_ROLES.USER), (req, res) => {
 
 ```bash
 npm install zod
-``
+```
+
+- Example of using Zod for data validation in an Express.js application
+
+libaray:
+User.js
+
+```javascript
+import express from "express";
+import { z } from "zod";
+const app = express();
+app.use(express.json());
+// Define a Zod schema for user data
+const userSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long"),
+  email: z.string().email("Invalid email format"),
+  age: z.number().min(0, "Age must be a positive number"),
+});
 ```

@@ -1,5 +1,4 @@
 import productService from "../services/product.service.js";
-import jwt from "../utils/jwt.js";
 
 const getProducts = async (req, res) => {
   try {
