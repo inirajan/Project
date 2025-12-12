@@ -12,7 +12,7 @@ const createJWT = (data) => {
 
 const verifyJWT = async (token) => {
   return await new Promise((resolve, reject) => {
-    jwt.verify(token, config.jwt_secret, (error, data) => {
+    jwt.verify(token, config.jwtSecret, (error, data) => {
       if (error) return reject(error);
 
       resolve(data);

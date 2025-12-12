@@ -7,7 +7,7 @@ const config = {
   name: process.env.NAME || " ",
   port: process.env.PORT || 5000,
   version: process.env.VERSION || " ",
-  jwt_secret: process.env.JWT_SECRET,
+  jwtSecret: process.env.JWT_SECRET,
 
   feature: {
     admin: {

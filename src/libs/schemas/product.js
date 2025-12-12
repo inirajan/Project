@@ -8,7 +8,7 @@ const productSchema = z.object({
     .number({
       error: (value) =>
         value == undefined
-          ? " price must be numbered."
+          ? "Price must be numbered."
           : "Product price is required.",
     })
     .min(1)
