@@ -37,12 +37,15 @@ router.post(
 router.delete(
   "/api/products/:id",
   auth,
-
   roleBasedAuth(ROLE_MERCHANT),
   productController.deleteProduct
 );
 
+/*
 //update
+Put  /api/products/ id
+
+*/
 router.put(
   "/api/products/:id",
   auth,

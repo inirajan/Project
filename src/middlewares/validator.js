@@ -2,6 +2,7 @@ import { ZodError } from "zod";
 
 const validate = (schema) => (req, res, next) => {
   try {
+    //schema(name of schema from libs/schemas)
     schema.parse(req.body);
 
     next();
@@ -9,6 +10,7 @@ const validate = (schema) => (req, res, next) => {
     if (error instanceof ZodError) {
       // const flattened = z.flattenedError(error);
       const formattedError = z.treeifyError(error);
+
       console.log(error);
 
       res.status(400).json(formattedError);

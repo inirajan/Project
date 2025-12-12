@@ -1200,3 +1200,16 @@ const userSchema = z.object({
   age: z.number().min(0, "Age must be a positive number"),
 });
 ```
+
+## NodeJs Code Semantics
+
+- Always formate your code(Use prettier code formatter)
+- Use proper spacing and line spacing
+- Always use camelCase name your files, function, variables and folders in Js (eg. helloWorld)
+- File, vaiable, names must be noun (eg. fetecher)
+- Function and methods must be verb
+- Also check singular & pulral case, e.g(getUserById, getUsers)
+- Avoid using number while naming variable, file ,function, folder( test x, testOne )
+- Add a line above "return" statement
+- If you have list of codes, arrange in Asc orders " ctrl + shift + s"
+- sendEmail(recipent, sender,), /createStudents
