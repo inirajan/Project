@@ -2,10 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 
 import config from "./config/config.js";
+import conntectDB from "./config/database.js";
+
 import productRoute from "./routes/product.route.js";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
-import conntectDB from "./config/database.js";
+
 import logger from "./middlewares/logger.js";
 import auth from "./middlewares/auth.js";
 import roleBasedAuth from "./middlewares/roleBasedAuth.js";
