@@ -30,12 +30,7 @@ const getOneProductbyId = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const cookie = req.headers.cookie; // to see the cookie
-  console.log(cookie);
-
-  const token = cookie.split("=")[1];
   try {
-    const result = await jwt.verifyJWT(token);
     //create data
     console.log(req.body);
 

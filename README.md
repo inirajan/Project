@@ -995,3 +995,191 @@ jwt.verify(token, secretKey, (err, decoded) => {
 4. Include Token in Requests(append or use toke in every request to handle auth): client includes the JWT in the Authorization header of subsequent requests to protected routes.
 
 5. Verify Token and authenticate/authorize user: server verifies the JWT using the secret key to ensure its validity and integrity.
+
+## Middleware
+
+- Function that lies between the request and response cycle in a web application.
+- Function that has access of both request and response objects.
+
+-Browser -------- Request --------> Server
+-middleware -------- Request --------> Server
+
+- middleware -------- Response --------> Server
+- middleware -------- Response --------> Browser
+- Server -------- Response --------> Browser
+
+- It has additional functiality to go to next( ) middleware function in the stack.
+
+- It can modify the request or response objects, end the request-response cycle, or call the next middleware function in the stack.
+- Middleware functions are used to handle tasks such as authentication, logging, error handling, and request parsing.
+- Middleware functions can be defined globally for all routes or specific to certain routes.
+
+### Usage of Middleware
+
+- Middleware functions are used to perform tasks such as:
+  -Logging
+  -Authentication and authorization
+  -Error handling , validation
+  -Request parsing (e.g., parsing JSON or URL-encoded data)
+  -Request adn response modification
+
+- Example of a simple middleware function in Express.js:
+
+```javascript
+import express from "express";
+const app = express();
+// Simple middleware function
+
+app.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+  // Perform some operations here, such as logging or authentication
+
+  next(); // Call the next middleware function in the stack
+});
+
+// Route handler
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+## Application Middleware
+
+- Application middleware is a type of middleware that is applied to all routes in an Express.js application.
+
+- It is defined using the `app.use()` method and can be used for tasks such as logging, authentication, and request parsing.
+- Example of application middleware in Express.js:
+
+```javascript
+import express from "express";
+const app = express();
+// Application middleware for logging requests
+app.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+  next(); // Call the next middleware function in the stack
+});
+
+// Route handler
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+- In this example, the application middleware logs the request method and URL for every incoming request before passing control to the next middleware or route handler.
+
+## Router middleware
+
+- Router middleware is a type of middleware that is applied to specific routes or groups of routes in an Express.js application.
+- It is defined using the `router.use()` method and can be used for tasks such as authentication, validation, and error handling for specific routes.
+- Example of router middleware in Express.js:
+
+```javascript
+import express from "express";
+const app = express();
+const router = express.Router();
+
+// Router middleware for logging requests
+router.use((req, res, next) => {
+  console.log(
+    `Router Middleware - Request Method: ${req.method}, Request URL: ${req.url}`
+  );
+  next(); // Call the next middleware function in the stack
+});
+// Route handler for the router
+router.get("/", (req, res) => {
+  res.send("Hello from the router!");
+});
+// Use the router in the application
+app.use("/api", router); // All routes in the router will be prefixed with /
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});
+```
+
+- In this example, the router middleware logs the request method and URL for every incoming request to the `/api` route before passing control to the next middleware or route handler defined in the router.
+
+## Authorization Middleware Role-Based Access Control (RBAC)
+
+- Authorization middleware is used to restrict access to certain routes based on user roles and permissions.
+- Role-Based Access Control (RBAC) is a common approach to authorization where users are assigned roles, and each role has specific permissions.
+
+1. USER ROLES:
+   purchasing products, view products, add to cart, place orders ,product create
+2. MERCHANT ROLES:
+   managing products, view orders, update order status, delete products
+3. ADMIN ROLES:
+   managing users, managing merchants, view reports, system settings,product ,orders management
+
+- Example of authorization middleware using RBAC in Express.js:
+
+```javascript
+import express from "express";
+const app = express();
+
+// Sample user data with roles
+const users = {
+  1: { id: 1, name: "Alice", role: "user" },
+  2: { id: 2, name: "Bob", role: "merchant" },
+  3: { id: 3, name: "Charlie", role: "admin" },
+};
+// Authorization middleware
+const roleBasedAuth = (role) => {
+  return (req, res, next) => {
+    if (req.user && req.user.role === role) {
+      next(); // User has the required role, proceed to the next middleware or route handler
+    } else {
+      res.status(403).json({ message: "Forbidden: Access is denied." });
+    }
+  };
+};
+```
+
+- Example of defining user roles in a separate file:
+  constant.js
+
+```javascript
+export const USER_ROLES = {
+  USER: "user",
+  MERCHANT: "merchant",
+  ADMIN: "admin",
+};
+```
+
+- In this example, the `roleBasedAuth` middleware checks if the authenticated user has the required role to access the route.
+- If the user has the required role, the middleware calls `next()` to pass control to the next middleware or route handler.
+- If the user does not have the required role, the middleware responds with a 403 Forbidden status.
+- Example of using the authorization middleware in routes:
+
+```javascript
+import roleBasedAuth from "./roleBasedAuth.js";
+import { USER_ROLES } from "./constants.js";
+
+// Route accessible only to users with the "user" role
+app.get("/user/profile", roleBasedAuth(USER_ROLES.USER), (req, res) => {
+  res.send("User Profile");
+});
+```
+
+## Validation Middleware(data validation)
+
+- Check/Verify whether the input data is valid or not before processing it further.
+- for. eg. name(string), age(number), email(valid email format),isAcqtive(boolean)
+
+- Validation -> API (most important), frontend, database(optoinal)
+
+### zod :
+
+- Zod is a TypeScript-first schema declaration and validation library.
+- It allows you to define schemas for your data and validate them at runtime.
+- To use Zod, you need to install it via npm:
+
+```bash
+npm install zod
+``
+```

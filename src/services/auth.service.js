@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import createJWT from "../utils/jwt.js";
+// import jwt from "../utils/jwt.js";
 
 const login = async (data) => {
   // const user = await User.findOne({ email: data.email }); // login using email
@@ -26,13 +26,13 @@ const login = async (data) => {
     };
 
   //adding token in logged in
-  const token = createJWT({
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
-    address: user.address,
-    roles: user.roles,
-  });
+  // const token = jwt.createJWT({
+  //   name: user.name,
+  //   email: user.email,
+  //   phone: user.phone,
+  //   address: user.address,
+  //   roles: user.roles,
+  // });
 
   return {
     _id: user._id,

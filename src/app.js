@@ -6,12 +6,18 @@ import productRoute from "./routes/product.route.js";
 import userRoute from "./routes/user.route.js";
 import authRoute from "./routes/auth.route.js";
 import conntectDB from "./config/database.js";
+import logger from "./middlewares/logger.js";
+import auth from "./middlewares/auth.js";
+import roleBasedAuth from "./middlewares/roleBasedAuth.js";
+import { ROlE_ADMIN } from "./constants/roles.js";
 
 const app = express();
 
 conntectDB();
 
 app.use(bodyParser.json());
+
+app.use(logger);
 
 app.get("/", (req, res) => {
   res.json({
@@ -24,7 +30,7 @@ app.get("/", (req, res) => {
 
 //root
 app.use("/", productRoute);
-app.use("/", userRoute);
+app.use("/", auth, roleBasedAuth(ROlE_ADMIN), userRoute);
 app.use("/", authRoute);
 
 //creating servers

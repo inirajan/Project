@@ -10,6 +10,17 @@ const createUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  try {
+    const data = await userService.getUsers(req.body);
+
+    res.status(201).json(data);
+  } catch (error) {
+    res.status(400).send(error?.message);
+  }
+};
+
 export default {
   createUser,
+  getUsers,
 };
