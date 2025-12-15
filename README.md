@@ -1213,3 +1213,88 @@ const userSchema = z.object({
 - Add a line above "return" statement
 - If you have list of codes, arrange in Asc orders " ctrl + shift + s"
 - sendEmail(recipent, sender,), /createStudents
+
+## filtering: :
+
+const getProductsFromDB = async (query) => {
+// const products = await Product.find();
+
+console.log(query);
+
+//filtering
+/\*
+
+query: {
+category: 'jjk',
+brand:'dajkk'
+name:"njjh"
+}
+const name = query.name;
+const category = query.category;
+const brand = query.brand;
+
+// const products = await Product.find({ category, brand, name });
+
+filter:{
+category,
+name: { $regex: name, $optinon: "i" };
+}
+
+or
+\*/
+
+//destructing of objects
+
+const { category, brand, name, min, max } = query;
+const sort = query.sort ? JSON.parse(query.sort) : {}; //"{name:1}-> {name:1}" //sorting(if there is query.sort exit then parse if not send empty object)
+
+const filters = {};
+
+console.log(brand.split(","));
+
+if (category) filters.category = category; //Exact match
+if (brand) filters.brand = { $in: brand.split(",") }; // match data from list of items or array
+if (name) filters.name = { $regex: name, $optinon: "i" }; // Ilike match(case insensetive match)
+if (min) filters.price = { $gte: min };
+if (max) filters.price = { ...filters.price, $lts: max };
+
+console.log(filters);
+
+const products = await Product.find({ filters }).sort(sort)
+.limit(limit)
+.skip(1); //offset means that skip
+
+return products;
+};
+
+## file system:
+
+// const products = fs.readFileSync("data/product.json", "utf-8");
+
+/\*
+const getProductsFromDB = (query) => {
+const brand = query.brand ?? "";
+
+const data = JSON.parse(products);
+
+return data.filter((item) => (brand ? item.brand == brand : true));
+};
+\*/
+
+/\*
+const getProductsById = (id) => {
+const data = JSON.parse(products);
+
+return data.find((item) => item.id == id);
+};
+\*/
+
+/\*
+const createProduct = (data) => {
+const prodctItems = JSON.parse(products);
+
+prodctItems.push(data);
+
+fs.writeFileSync("data/products.json", JSON.stringify(prodctItems));
+};
+\*/

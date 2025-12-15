@@ -1,7 +1,30 @@
 import Product from "../models/Product.js";
 
 const getProductsFromDB = async (query) => {
-  const products = await Product.find();
+  console.log(query);
+
+  //destructing of objects and filtering, sorting, limiting
+
+  const { category, brand, name, min, max, limit, offset, createdBy } = query;
+
+  const sort = query.sort ? JSON.parse(query.sort) : {};
+  const filters = {};
+
+  console.log(brand.split(","));
+
+  if (category) filters.category = category; //Exact match
+  if (brand) filters.brand = { $in: brand.split(",") }; // match data from list of items or array
+  if (name) filters.name = { $regex: name, $optinon: "i" }; // Ilike match(case insensetive match)
+  if (min) filters.price = { $gte: min };
+  if (max) filters.price = { ...filters.price, $lts: max };
+  if (createdBy) filters.createdBy = createdBy;
+
+  console.log(filters);
+
+  const products = await Product.find({ filters })
+    .sort(sort)
+    .limit(limit)
+    .skip(offset);
 
   return products;
 };
@@ -18,8 +41,10 @@ const getProductsById = async (id) => {
   return product;
 };
 
-const createProduct = async (data) => {
-  return await Product.create(data);
+const createProduct = async (data, userId) => {
+  // return await Product.create(data);
+
+  return await Product.create({ ...data, createdBy: userId });
 };
 
 const deleteProduct = async (id) => {
@@ -43,33 +68,3 @@ export default {
   deleteProduct,
   updateProduct,
 };
-
-// const products = fs.readFileSync("data/product.json", "utf-8");
-
-/*
-const getProductsFromDB = (query) => {
-  const brand = query.brand ?? "";
-
-  const data = JSON.parse(products);
-
-  return data.filter((item) => (brand ? item.brand == brand : true));
-};
-*/
-
-/*
-const getProductsById = (id) => {
-  const data = JSON.parse(products);
-
-  return data.find((item) => item.id == id);
-};
-*/
-
-/*
-const createProduct = (data) => {
-  const prodctItems = JSON.parse(products);
-
-  prodctItems.push(data);
-
-  fs.writeFileSync("data/products.json", JSON.stringify(prodctItems));
-};
-*/

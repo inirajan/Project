@@ -33,7 +33,12 @@ const createProduct = async (req, res) => {
     //create data
     console.log(req.body);
 
-    const createdProduct = await productService.createProduct(req.body);
+    // const createdProduct = await productService.createProduct(req.body);
+
+    const createdProduct = await productService.createProduct(
+      req.body,
+      req.user
+    );
 
     res.status(201).json(createdProduct);
   } catch (error) {

@@ -10,7 +10,7 @@ import logger from "./middlewares/logger.js";
 import productRoute from "./routes/product.route.js";
 import roleBasedAuth from "./middlewares/roleBasedAuth.js";
 import userRoute from "./routes/user.route.js";
-import { ROlE_ADMIN } from "./constants/roles.js";
+import { ROLE_ADMIN } from "./constants/roles.js";
 
 const app = express();
 
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 });
 
 //root
-app.use("/", auth, roleBasedAuth(ROlE_ADMIN), userRoute);
+app.use("/", auth, roleBasedAuth(ROLE_ADMIN), userRoute);
 app.use("/", authRoute);
 app.use("/", productRoute);
 

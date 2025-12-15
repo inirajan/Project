@@ -17,6 +17,8 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
 
+  description: String,
+
   price: {
     type: Number,
     required: [true, "Product name is required"], // setting custom message
@@ -37,6 +39,12 @@ const productSchema = new mongoose.Schema({
   },
 
   imageUrls: [String], // for multiple set array
+
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: [true, "Created by User is required"],
+  },
 });
 
 const model = mongoose.model("Product", productSchema);
