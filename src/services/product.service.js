@@ -1,6 +1,7 @@
-import { file } from "zod";
 import Product from "../models/Product.js";
 import uploadFile from "../utils/fileUploder.js";
+import promptAi from "../utils/ai.js";
+import { PRODUCT_DESCRITPION_PROMPT } from "../constants/prompt.js";
 
 const getProductsFromDB = async (query) => {
   console.log(query);
@@ -50,7 +51,19 @@ const createProduct = async (data, files, userId) => {
 
   const imageUrls = uploadedFiles.map((item) => item.url);
 
-  return await Product.create({ ...data, imageUrls, createdBy: userId });
+  //Ai integraiton
+  const promptMessage = PRODUCT_DESCRITPION_PROMPT.replace("%s", data.name)
+    .replace("%s", data.brand)
+    .replace("%s", data.category);
+
+  const description = data.description ?? (await promptAi(promptMessage));
+
+  return await Product.create({
+    ...data,
+    imageUrls,
+    description,
+    createdBy: userId,
+  });
 };
 
 const deleteProduct = async (id) => {
