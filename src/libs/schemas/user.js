@@ -1,4 +1,5 @@
 import z from "zod";
+
 import { ROLE_ADMIN, ROLE_MERCHANT, ROLE_USER } from "../../constants/roles.js";
 
 const addressSchema = z.object({
@@ -11,7 +12,7 @@ const addressSchema = z.object({
 const userSchema = z.object({
   name: z.string({ error: "Name is required." }).trim(),
   email: z.email(),
-  passwrod: z.string().min(6),
+  password: z.string().min(6),
   phone: z.string().min(6).max(13),
   address: addressSchema,
   roles: z.array(z.enum([ROLE_ADMIN, ROLE_MERCHANT, ROLE_USER])).optional(),
@@ -19,4 +20,14 @@ const userSchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-export default userSchema;
+// const updateUserSchema = z.object({
+//   name: z.string({ error: "Name is required." }).trim(),
+//   email: z.email(),
+//   address: addressSchema,
+// });
+
+const updateRolesSchema = z.object({
+  roles: z.array(z.enum([ROLE_MERCHANT, ROLE_USER])).optional(),
+});
+
+export { userSchema, updateRolesSchema };

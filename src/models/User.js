@@ -46,26 +46,23 @@ const userSchema = new mongoose.Schema({
       default: "Nepal",
     },
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-    immutable: true,
-  },
+
   roles: {
     type: [String],
     default: ["USER"],
     enum: ["USER", "MERCHANT", "ADMIN"],
   },
   profileImageUrl: String,
+
   isActive: {
     type: Boolean,
     default: true,
   },
 
-  status: {
-    type: [String],
-    default: ["Pending"],
-    emum: ["Pending ", "Active", ""],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    immutable: true,
   },
 });
 

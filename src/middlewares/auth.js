@@ -1,8 +1,7 @@
 import jwt from "../utils/jwt.js";
 
 const auth = async (req, res, next) => {
-  const cookie = req.headers.cookie; // to see the cookie
-  console.log(cookie);
+  const cookie = req.headers.cookie;
 
   if (!cookie) return res.status(401).send("User not authenticated.");
 
@@ -13,12 +12,11 @@ const auth = async (req, res, next) => {
   try {
     const data = await jwt.verifyJWT(token);
 
-    //setting in request user data
     req.user = data;
 
     next();
   } catch (error) {
-    res.status(401).send("Invalid token.");
+    res.status(401).send("Invalid token");
   }
 };
 

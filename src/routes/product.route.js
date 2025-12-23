@@ -1,10 +1,11 @@
 import express from "express";
-import productController from "../controllers/product.controller.js";
+
 import auth from "../middlewares/auth.js";
+import productController from "../controllers/product.controller.js";
 import roleBasedAuth from "../middlewares/roleBasedAuth.js";
+import validate from "../middlewares/validator.js";
 import { ROLE_MERCHANT } from "../constants/roles.js";
 import { productSchema } from "../libs/schemas/product.js";
-import validate from "../middlewares/validator.js";
 
 const router = express.Router();
 
@@ -42,11 +43,10 @@ router.delete(
   productController.deleteProduct
 );
 
-/*
-//update
-Put  /api/products/ id
-
+/*update
+PUT /api/products/ id
 */
+
 router.put(
   "/api/products/:id",
   auth,

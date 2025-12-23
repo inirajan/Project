@@ -37,6 +37,7 @@ const createProduct = async (req, res) => {
 
     const createdProduct = await productService.createProduct(
       req.body,
+      req.files,
       req.user
     );
 
@@ -63,7 +64,8 @@ const updateProduct = async (req, res) => {
   try {
     const updataProduct = await productService.updateProduct(
       req.params.id,
-      req.body
+      req.body,
+      req.files
     );
 
     res.status(201).send(updataProduct);

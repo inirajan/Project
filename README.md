@@ -1298,3 +1298,163 @@ prodctItems.push(data);
 fs.writeFileSync("data/products.json", JSON.stringify(prodctItems));
 };
 \*/
+
+## code to generated 128 bit
+
+$ node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"
+
+## $populate
+
+- Populate is a Mongoose feature that replaces a reference (foreign key) with actual data from another collection. Instead of getting just an ID, you get the full object.
+
+- Why use it? When you have related data in different collections, populate automatically fetches and joins them together - similar to SQL JOINs.
+
+-Example:
+Author.js
+import mongoose from 'mongoose';
+
+const authorSchema = new mongoose.Schema({
+name: String,
+email: String,
+bio: String,
+createdAt: { type: Date, default: Date. now }
+});
+
+export default mongoose.model('Author', authorSchema);
+
+Book.js
+import mongoose from 'mongoose';
+
+const bookSchema = new mongoose.Schema({
+title: String,
+author: {
+type: mongoose. Schema.Types.ObjectId,
+ref: 'Author'
+}
+});
+
+export default mongoose.model('Book', bookSchema);
+
+- bookService.js
+
+import Book from '../models/Book.js';
+
+// Get all books with author populate
+export const getAllBooks = async () => {
+return await Book. find().populate('author');
+};
+
+// Get book by ID with author populate
+export const getBookById = async (id) => {
+return await Book. findById(id).populate('author');
+};
+
+// Get book with specific author fields
+export const getBookWithAuthorFields = async (id) => {
+return await Book. findById(id).populate('author', 'name email');
+};
+
+// Create book
+export const createBook = async (bookData) => {
+return await Book.create(bookData);
+};
+
+// Get books with filtered populate
+export const getBookWithFilter = async (id) => {
+return await Book. findById(id).populate({
+path: 'author',
+select: 'name email',
+options: { lean: true }
+});
+};
+
+### Entity
+
+- Model
+- Service
+- Controller
+- Routes
+- Validation Schema(libs)
+
+# Product Orders
+
+- User (customer)
+- orderItems
+  - Each product
+  - quantity
+- status: pending, confimed, shippded, delivered, cancelled
+- shippingAddress
+- totalPrice
+- orderNumber- this is for packing
+- payment
+
+\*\* note: test opt for khali = 987654
+
+## axios
+
+- axios.post("url",data,{
+  //headers
+  })
+
+## File Upload
+
+1. File data -> Send as formData
+2. Use (multer is node js package) for uploading files or use to handle Form-Data
+3. upload (to a bucket)
+
+- first Install cloudinary,
+- then configure using this code
+  config.js
+  cloudinary.config({
+  cloud_name: 'my_cloud_name',
+  api_key: 'my_key',
+  api_secret: 'my_secret'
+  });
+
+4. Recive the file url from uploaded file
+5. Store the URL in databases
+
+## Testing
+
+//test
+app.upload("/api/upload", upload.single("image"), async (req, res) => {
+const files = req.files;
+console.log(files);
+
+const result = await uploadFile(files);
+
+res.json(result);
+});
+
+## Forget/Rest password, send Email
+
+step-1:
+
+1. User request for forget password
+2. User input the email address(e)
+3. Using the email address, find the user and create a reset password link and token
+4. Send the reset password link to the email
+
+- to send email used resend package
+
+step-2:
+
+5. User clicks on the reset password link from the recieved email
+6. User Inputs the new password, along with the token(reset password link)
+7. Verify the user and token 8. Update the password
+8. Update the password
+
+## Mongodb Aggreggation
+
+- performing operation in multiple documents(table)
+- filtering in multiple documents
+- data formatting
+
+//property
+
+1. $match => filtering
+2. $lookup ==> left jons
+3. $unwind==> , inner joins
+4. $project=>Data formatting
+
+5. $group => complex grouped operation

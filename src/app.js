@@ -1,20 +1,26 @@
 import express from "express";
 import bodyParser from "body-parser";
+import multer from "multer";
 
 import config from "./config/config.js";
 import conntectDB from "./config/database.js";
+import connectedCloudinary from "./config/cloudinary.js";
 
 import auth from "./middlewares/auth.js";
 import authRoute from "./routes/auth.route.js";
 import logger from "./middlewares/logger.js";
+import orderRoute from "./routes/order.route.js";
 import productRoute from "./routes/product.route.js";
-import roleBasedAuth from "./middlewares/roleBasedAuth.js";
 import userRoute from "./routes/user.route.js";
-import { ROLE_ADMIN } from "./constants/roles.js";
 
 const app = express();
 
+// const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: multer.memoryStorage() });
+
 conntectDB();
+
+connectedCloudinary();
 
 app.use(bodyParser.json());
 
@@ -30,9 +36,10 @@ app.get("/", (req, res) => {
 });
 
 //root
-app.use("/", auth, roleBasedAuth(ROLE_ADMIN), userRoute);
+app.use("/", upload.array("images", 5), productRoute);
+app.use("/", auth, upload.single("image"), userRoute);
 app.use("/", authRoute);
-app.use("/", productRoute);
+app.use("/", auth, orderRoute);
 
 //creating servers
 app.listen(config.port, () => {

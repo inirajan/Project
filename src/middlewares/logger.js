@@ -1,8 +1,9 @@
 const logger = (req, res, next) => {
-  const url = req.originalUrl;
+  const url = req.orginalUrl;
   const method = req.method;
 
-  console.log(`Method: ${method} & Url:${url}`);
+  console.log(`Method: ${method} & URL: ${url}`);
+
   next();
 };
 

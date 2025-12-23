@@ -1,4 +1,6 @@
+import { file } from "zod";
 import Product from "../models/Product.js";
+import uploadFile from "../utils/fileUploder.js";
 
 const getProductsFromDB = async (query) => {
   console.log(query);
@@ -41,10 +43,14 @@ const getProductsById = async (id) => {
   return product;
 };
 
-const createProduct = async (data, userId) => {
+const createProduct = async (data, files, userId) => {
   // return await Product.create(data);
 
-  return await Product.create({ ...data, createdBy: userId });
+  const uploadedFiles = await uploadFile(files);
+
+  const imageUrls = uploadedFiles.map((item) => item.url);
+
+  return await Product.create({ ...data, imageUrls, createdBy: userId });
 };
 
 const deleteProduct = async (id) => {
@@ -53,12 +59,20 @@ const deleteProduct = async (id) => {
   await Product.findByIdAndDelete(id);
 };
 
-const updateProduct = async (id) => {
+const updateProduct = async (id, data, files) => {
   // return await Product.findByIdAndUpdate(id,data)  this will send existing data
 
   await getProductsById(id);
 
-  return await Product.findByIdAndUpdate(id, data, { new: true }); // and this will send update products
+  const updateData = data;
+
+  if (files && files.length > 0) {
+    const uploadedFiles = await uploadFile(files);
+
+    updateData.imageUrls = uploadedFiles.map((item) => item.url);
+  }
+
+  return await Product.findByIdAndUpdate(id, updateData, { new: true }); // and this will send update products
 };
 
 export default {

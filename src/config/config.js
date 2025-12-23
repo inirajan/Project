@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config = {
+  appUrl: process.env.APP_URL || " ",
   name: process.env.NAME || " ",
   port: process.env.PORT || 5000,
   version: process.env.VERSION || " ",
@@ -15,6 +16,16 @@ const config = {
     },
   },
   mongoDBUrl: process.env.MONGODB_URL || "",
+  khalti: {
+    apiUrl: process.env.KHALTI_API_URL || "",
+    secret: process.env.KHALTI_SEC_KEY || "",
+  },
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
+    apiKey: process.env.CLOUDINARY_API_KEY || "",
+    apiSecret: process.env.CLOUDINARY_API_SECRET || "",
+  },
+  emailApiKey: process.env.EMAIL_API_KEY || " ",
 };
 
 export default config;
