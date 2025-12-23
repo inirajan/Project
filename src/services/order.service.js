@@ -8,7 +8,6 @@ import {
   ORDER_STATUS_CONFIRMED,
 } from "../constants/orderStatuses.js";
 import { payViaKhalti } from "../utils/payment.js";
-import mongoose from "mongoose";
 
 const getOrders = async () => {
   return await Order.find()
@@ -189,6 +188,7 @@ const getOrdersByMerchant = async (merchantId) => {
     },
   ]);
 };
+
 export default {
   createOrder,
   getOrders,

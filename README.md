@@ -1458,3 +1458,7 @@ step-2:
 4. $project=>Data formatting
 
 5. $group => complex grouped operation
+
+## Deployment
+
+## mongoDB atlas
